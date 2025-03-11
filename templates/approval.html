@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Booking Approval</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3f51b5;
+            --accent-color: #ff4081;
+            --text-color: #333;
+            --light-gray: #f5f5f5;
+            --border-color: #ddd;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--text-color);
+            background-color: var(--light-gray);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        header h1 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            color: #666;
+            margin-top: 0;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        
+        h2 {
+            color: var(--primary-color);
+            margin-top: 0;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+        
+        .approval-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .approval-item {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 16px;
+            background-color: white;
+            transition: box-shadow 0.3s ease;
+            padding: 0;
+            overflow: hidden;
+        }
+        
+        .approval-item:hover {
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .approval-header {
+            padding: 16px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--light-gray);
+        }
+        
+        .approval-details {
+            padding: 16px;
+        }
+        
+        .approval-actions {
+            padding: 16px;
+            display: flex;
+            justify-content: flex-end;
+            background-color: var(--light-gray);
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .btn {
+            border: none;
+            border-radius: 4px;
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: background-color 0.3s ease;
+            margin-left: 8px;
+        }
+        
+        .btn-approve {
+            background-color: #4caf50;
+            color: white;
+        }
+        
+        .btn-approve:hover {
+            background-color: #388e3c;
+        }
+        
+        .btn-reject {
+            background-color: #f44336;
+            color: white;
+        }
+        
+        .btn-reject:hover {
+            background-color: #d32f2f;
+        }
+        
+        .btn-refresh {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-refresh:hover {
+            background-color: #303f9f;
+        }
+        
+        .detail-row {
+            display: flex;
+            margin-bottom: 8px;
+        }
+        
+        .detail-label {
+            font-weight: 500;
+            width: 120px;
+            color: #757575;
+        }
+        
+        .detail-value {
+            flex: 1;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 20px;
+            font-style: italic;
+            color: #757575;
+        }
+        
+        .no-approvals {
+            text-align: center;
+            padding: 40px 20px;
+            color: #757575;
+            font-style: italic;
+        }
+        
+        .success-message {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .error-message {
+            background-color: #ffebee;
+            color: #c62828;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .nav-links a {
+            display: flex;
+            align-items: center;
+            margin: 0 15px;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+        
+        .nav-links .material-icons {
+            margin-right: 5px;
+        }
+        
+        .active {
+            color: var(--accent-color) !important;
+        }
+        
+        .processing {
+            color: #666;
+            font-style: italic;
+        }
+        
+        .success {
+            color: #2e7d32;
+        }
+        
+        .error {
+            color: #c62828;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Hotel Booking Approval</h1>
+            <p>Approve or reject manual hotel booking requests</p>
+            <div class="nav-links">
+                <a href="/">
+                    <span class="material-icons">home</span> Home
+                </a>
+                <a href="/approval-form" class="active">
+                    <span class="material-icons">check_circle</span> Pending Approvals
+                </a>
+            </div>
+        </header>
+        
+        <div id="successMessage" class="success-message"></div>
+        <div id="errorMessage" class="error-message"></div>
+        
+        <div class="card">
+            <h2>Pending Approvals</h2>
+            <div style="display: flex; justify-content: flex-end; margin-bottom: 20px;">
+                <button id="refreshButton" class="btn btn-refresh">
+                    <span class="material-icons" style="vertical-align: middle; margin-right: 4px;">refresh</span> Refresh
+                </button>
+            </div>
+            
+            <div id="loadingApprovals" class="loading">Loading pending approvals...</div>
+            <div id="noApprovals" class="no-approvals" style="display: none;">No pending approvals found.</div>
+            <ul id="approvalList" class="approval-list"></ul>
+        </div>
+    </div>
+
+    <script>
+        // Function to fetch pending approvals
+        async function fetchPendingApprovals() {
+            console.log('Fetching pending approvals...');
+            document.getElementById('loadingApprovals').style.display = 'block';
+            document.getElementById('noApprovals').style.display = 'none';
+            document.getElementById('approvalList').innerHTML = '';
+            
+            try {
+                console.log('Sending request to /pending-approvals endpoint');
+                const response = await fetch('/pending-approvals');
+                console.log('Response status:', response.status);
+                const data = await response.json();
+                console.log('Received data:', data);
+                
+                document.getElementById('loadingApprovals').style.display = 'none';
+                
+                if (data.pending_approvals && data.pending_approvals.length > 0) {
+                    console.log(`Found ${data.pending_approvals.length} pending approvals`);
+                    renderApprovals(data.pending_approvals);
+                } else {
+                    console.log('No pending approvals found');
+                    document.getElementById('noApprovals').style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Error fetching approvals:', error);
+                document.getElementById('loadingApprovals').style.display = 'none';
+                document.getElementById('noApprovals').style.display = 'block';
+                document.getElementById('noApprovals').textContent = 'Error loading approvals. Please try again.';
+            }
+        }
+        
+        // Function to render approvals
+        function renderApprovals(approvals) {
+            const approvalList = document.getElementById('approvalList');
+            console.log('Rendering approvals:', approvals);
+            
+            approvals.forEach(approval => {
+                const details = approval.details || {};
+                const hotelId = details.hotel_id || 'Unknown';
+                const workflowId = approval.workflow_id || details.workflow_id || 'Unknown';
+                console.log(`Rendering approval for workflow ID: ${workflowId}`);
+                const startedAt = approval.started_at ? new Date(approval.started_at).toLocaleString() : 'Unknown';
+                
+                const approvalItem = document.createElement('li');
+                approvalItem.className = 'approval-item';
+                approvalItem.innerHTML = `
+                    <div class="approval-header">
+                        <strong>Hotel Booking: ${hotelId}</strong>
+                        <span>Status: Pending Approval</span>
+                    </div>
+                    <div class="approval-details">
+                        <div class="detail-row">
+                            <div class="detail-label">Workflow ID:</div>
+                            <div class="detail-value">${workflowId}</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Started At:</div>
+                            <div class="detail-value">${startedAt}</div>
+                        </div>
+                    </div>
+                    <div id="status-${workflowId}"></div>
+                    <div id="actions-${workflowId}" class="approval-actions">
+                        <button class="btn btn-reject" data-workflow-id="${workflowId}" onclick="handleDecision('${workflowId}', 'reject')">Reject</button>
+                        <button class="btn btn-approve" data-workflow-id="${workflowId}" onclick="handleDecision('${workflowId}', 'approve')">Approve</button>
+                    </div>
+                `;
+                
+                approvalList.appendChild(approvalItem);
+            });
+        }
+        
+        // Function to handle approval/rejection
+        async function handleDecision(workflowId, decision) {
+            console.log(`Handling decision: ${decision} for workflow: ${workflowId}`);
+            
+            try {
+                console.log('Sending approval request to server...');
+                const payload = {
+                    workflow_id: workflowId,
+                    decision: decision
+                };
+                console.log('Request payload:', payload);
+                
+                const response = await fetch('/approve-booking', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(payload),
+                });
+                
+                console.log('Response status:', response.status);
+                console.log('Response headers:', response.headers);
+                
+                // Show status in UI
+                const statusElement = document.getElementById(`status-${workflowId}`);
+                if (statusElement) {
+                    statusElement.innerHTML = `<div class="processing">Processing ${decision} request...</div>`;
+                }
+                
+                const data = await response.json();
+                console.log('Response data:', data);
+                
+                if (data.success) {
+                    console.log('Success response received');
+                    showSuccessMessage(`Booking ${decision === 'approve' ? 'approved' : 'rejected'} successfully!`);
+                    
+                    // Update the UI to show the booking was approved/rejected
+                    if (statusElement) {
+                        statusElement.innerHTML = `<div class="success">Booking ${decision === 'approve' ? 'approved' : 'rejected'} successfully!</div>`;
+                    }
+                    
+                    // Hide the approval buttons
+                    const actionsElement = document.getElementById(`actions-${workflowId}`);
+                    if (actionsElement) {
+                        actionsElement.style.display = 'none';
+                    }
+                    
+                    // Refresh the list after a short delay
+                    setTimeout(fetchPendingApprovals, 1000);
+                } else {
+                    console.log('Error response received:', data.error);
+                    
+                    // Try the CLI endpoint as a fallback
+                    console.log('Trying CLI endpoint as fallback...');
+                    try {
+                        const cliResponse = await fetch(`/cli-approve/${workflowId}`, {
+                            method: 'GET'
+                        });
+                        
+                        const cliData = await cliResponse.json();
+                        console.log('CLI response:', cliData);
+                        
+                        if (cliData.success) {
+                            console.log('CLI fallback succeeded');
+                            showSuccessMessage(`Booking ${decision === 'approve' ? 'approved' : 'rejected'} successfully via CLI!`);
+                            
+                            // Update the UI to show the booking was approved/rejected
+                            if (statusElement) {
+                                statusElement.innerHTML = `<div class="success">Booking ${decision === 'approve' ? 'approved' : 'rejected'} successfully via CLI!</div>`;
+                            }
+                            
+                            // Hide the approval buttons
+                            const actionsElement = document.getElementById(`actions-${workflowId}`);
+                            if (actionsElement) {
+                                actionsElement.style.display = 'none';
+                            }
+                            
+                            // Refresh the list after a short delay
+                            setTimeout(fetchPendingApprovals, 1000);
+                            return;
+                        }
+                    } catch (cliError) {
+                        console.error('CLI fallback failed:', cliError);
+                    }
+                    
+                    showErrorMessage(data.error || `Failed to ${decision} booking.`);
+                    
+                    // Update the UI to show the error
+                    if (statusElement) {
+                        statusElement.innerHTML = `<div class="error">Failed to ${decision} booking: ${data.error || 'Unknown error'}</div>`;
+                    }
+                }
+            } catch (error) {
+                console.error('Error handling decision:', error);
+                showErrorMessage(`Error processing your request. Please try again.`);
+                
+                // Update the UI to show the error
+                const statusElement = document.getElementById(`status-${workflowId}`);
+                if (statusElement) {
+                    statusElement.innerHTML = `<div class="error">Error: ${error.message}</div>`;
+                }
+            }
+        }
+        
+        // Function to show success message
+        function showSuccessMessage(message) {
+            const successMessage = document.getElementById('successMessage');
+            successMessage.textContent = message;
+            successMessage.style.display = 'block';
+            
+            // Hide after 5 seconds
+            setTimeout(() => {
+                successMessage.style.display = 'none';
+            }, 5000);
+        }
+        
+        // Function to show error message
+        function showErrorMessage(message) {
+            const errorMessage = document.getElementById('errorMessage');
+            errorMessage.textContent = message;
+            errorMessage.style.display = 'block';
+            
+            // Hide after 5 seconds
+            setTimeout(() => {
+                errorMessage.style.display = 'none';
+            }, 5000);
+        }
+        
+        // Add event listener for refresh button
+        document.getElementById('refreshButton').addEventListener('click', fetchPendingApprovals);
+        
+        // Fetch approvals on page load
+        document.addEventListener('DOMContentLoaded', fetchPendingApprovals);
+    </script>
+</body>
+</html>
