@@ -1,0 +1,385 @@
+/* Base styles */
+:root {
+    --primary-color: #33ceff;
+    --primary-dark: #3700b3;
+    --secondary-color: #33ceff;
+    --secondary-dark: #018786;
+    --background: #f5f5f5;
+    --surface: #ffffff;
+    --error: #b00020;
+    --success: #4caf50;
+    --on-primary: #ffffff;
+    --on-secondary: #000000;
+    --on-background: #000000;
+    --on-surface: #000000;
+    --on-error: #ffffff;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--background);
+    color: var(--on-background);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Header styles */
+header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 20px 0;
+}
+
+header h1 {
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+/* Destination image styles */
+.destination-image-container {
+    position: relative;
+    margin-bottom: 30px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.destination-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+.destination-image:hover {
+    transform: scale(1.02);
+}
+
+.image-refresh-btn {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    background-color: rgba(255, 255, 255, 0.8);
+    color: var(--primary-color);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.image-refresh-btn:hover {
+    background-color: white;
+    transform: rotate(30deg);
+}
+
+.image-refresh-btn .material-icons {
+    font-size: 20px;
+}
+
+/* Rotation animation for refresh button */
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.rotating {
+    animation: rotate 0.5s ease-in-out;
+}
+
+.image-refresh-btn.rotating {
+    animation: rotate 0.5s ease-in-out;
+}
+
+/* Card styles */
+.card {
+    background-color: var(--surface);
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    margin-bottom: 30px;
+}
+
+.card h2 {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+/* Form styles */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+/* Button styles */
+.btn {
+    background-color: var(--primary-color);
+    color: var(--on-primary);
+    border: none;
+    border-radius: 4px;
+    padding: 12px 24px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-transform: uppercase;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+.btn:hover {
+    background-color: var(--primary-dark);
+}
+
+.btn.secondary {
+    background-color: var(--secondary-color);
+    color: var(--on-secondary);
+}
+
+.btn.secondary:hover {
+    background-color: var(--secondary-dark);
+}
+
+/* Result card */
+#resultCard {
+    display: flex;
+    flex-direction: column;
+}
+
+#resultContent {
+    margin-bottom: 20px;
+    white-space: pre-wrap;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Success and error styles */
+.success h3 {
+    color: var(--success);
+    margin-bottom: 10px;
+}
+
+.error h3 {
+    color: var(--error);
+    margin-bottom: 10px;
+}
+
+.result-details {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+.result-details pre {
+    background-color: #f5f5f5;
+    padding: 15px;
+    border-radius: 4px;
+    overflow-x: auto;
+}
+
+/* Manual approval styles */
+.manual-approval-banner {
+    border-left: 4px solid #ff9800;
+    padding-left: 15px;
+    background-color: #fff8e1;
+    border-radius: 4px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.manual-approval-banner h3 {
+    color: #ff9800;
+    font-weight: 500;
+}
+
+.manual-approval-info {
+    background-color: #fff8e1;
+    border: 1px solid #ffe0b2;
+    border-radius: 4px;
+    padding: 15px;
+    margin: 15px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.manual-approval-info p {
+    margin-bottom: 8px;
+    line-height: 1.5;
+}
+
+.manual-approval-info a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.manual-approval-info a:hover {
+    text-decoration: underline;
+}
+
+.status-waiting {
+    display: inline-block;
+    background-color: #ff9800;
+    color: white;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 500;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.status-complete {
+    display: inline-block;
+    background-color: var(--success);
+    color: white;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* Approval actions */
+.approval-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.btn-approve {
+    background-color: var(--success);
+}
+
+.btn-reject {
+    background-color: var(--error);
+}
+
+.processing {
+    color: #ff9800;
+    font-style: italic;
+}
+
+.manual-approval {
+    margin-top: 25px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    border-left: 4px solid var(--primary-color);
+}
+
+.manual-approval h4 {
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+#approvalStatus {
+    margin: 10px 0;
+}
+
+#approvalStatus .processing {
+    color: #ff9800;
+    font-style: italic;
+}
+
+#approvalStatus .success {
+    color: var(--success);
+}
+
+#approvalStatus .error {
+    color: var(--error);
+}
+
+/* Footer styles */
+footer {
+    text-align: center;
+    margin-top: 30px;
+    padding: 20px 0;
+    color: #666;
+}
+
+/* Temporal console link */
+.temporal-link {
+    margin-top: 15px;
+}
+
+.console-link {
+    display: inline-flex;
+    align-items: center;
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.console-link:hover {
+    background-color: rgba(98, 0, 238, 0.1);
+}
+
+.console-link .material-icons {
+    margin-right: 8px;
+    font-size: 18px;
+}
+
+/* Responsive styles */
+@media (max-width: 600px) {
+    .container {
+        padding: 10px;
+    }
+
+    .card {
+        padding: 20px;
+    }
+}

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trip Booking with Temporal</title>
+    <!-- Material UI CSS -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <!-- Material UI CSS via CDN -->
+    <link rel="stylesheet" href="https://unpkg.com/@material-ui/core@4.12.4/dist/material-ui.min.css" />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/styles.css">
+    <style>
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .nav-links a {
+            display: flex;
+            align-items: center;
+            margin: 0 15px;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+        .nav-links .material-icons {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Trip Booking with Temporal</h1>
+            <p>Book your vacation using Temporal workflows</p>
+            <div class="nav-links">
+                <a href="/" class="active">
+                    <span class="material-icons">home</span> Home
+                </a>
+                <a href="/approval-form">
+                    <span class="material-icons">check_circle</span> Pending Approvals
+                </a>
+            </div>
+        </header>
+
+        <div class="destination-image-container">
+            <img id="destinationImage" class="destination-image" src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=400&q=80" alt="Random holiday destination">
+            <button id="refreshImageBtn" class="image-refresh-btn" title="Load a new destination image">
+                <span class="material-icons">refresh</span>
+            </button>
+        </div>
+
+        <main>
+            <div class="card">
+                <h2>Book Your Vacation</h2>
+                <form id="bookingForm">
+                    <div class="form-group">
+                        <label for="name">Your Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="attempts">Maximum Retry Attempts</label>
+                        <input type="number" id="attempts" name="attempts" min="1" value="3" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="car">Car ID</label>
+                        <input type="text" id="car" name="car" placeholder="e.g. car-123" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="hotel">Hotel ID</label>
+                        <input type="text" id="hotel" name="hotel" placeholder="e.g. hotel-456" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="flight">Flight ID</label>
+                        <input type="text" id="flight" name="flight" placeholder="e.g. flight-789" required>
+                    </div>
+
+                    <button type="submit" class="btn">Book Vacation</button>
+                </form>
+            </div>
+
+            <div id="resultCard" class="card hidden">
+                <h2>Booking Result</h2>
+                <div id="resultContent"></div>
+                <button id="newBookingBtn" class="btn secondary">New Booking</button>
+            </div>
+        </main>
+
+        <footer>
+            <p>Powered by Temporal and Flask - written by @francois with hyperdev</p>
+            <div class="temporal-link">
+                <a href="http://localhost:8233/namespaces/default/workflows" target="_blank" class="console-link">
+                    <span class="material-icons">visibility</span> View Workflows in Temporal Console
+                </a>
+            </div>
+        </footer>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="/static/script.js"></script>
+</body>
+</html>
