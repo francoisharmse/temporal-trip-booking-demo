@@ -50,3 +50,9 @@ Now the approvals can be viewed and approved/rejected from the web console (ther
 
 After approval
 ![alt text](image-7.png)
+
+# TO-DO or to be fixed
+1. Polling event history for the task workflow prints or displays every polling interval
+![alt text](image-8.png)
+
+2. The approval client app is using a CLI command in the web interface to approve or reject the task workflow. This must be changed to use the temporal client library.
